@@ -7,22 +7,29 @@ public class Spawn : MonoBehaviour
 {
     [SerializeField] private Enemy _enemy;
 
-    private Transform[] _spawnPoints;
+    private List<Transform> _spawnPoints = new List<Transform>();
 
     private void Start()
     {
-        _spawnPoints = GetComponentsInChildren<Transform>();
+        for (int i = 0; i < gameObject.transform.childCount; i++)
+            _spawnPoints.Add(gameObject.transform.GetChild(i));
+
+        Debug.Log(_spawnPoints.Count);
+        StartCoroutine(SpawnFromPoints());
     }
 
-    private void Update()
+    IEnumerator SpawnFromPoints()
     {
-        int i = 0;
+        Enemy enemy;
+
         while (true)
         {
-            Instantiate(_enemy);
-            _enemy.transform.position = _spawnPoints[i].transform.position;
-            i = (i + 1) / _spawnPoints.Length;
-            new WaitForSeconds(2);
+            for (int i = 0; i < _spawnPoints.Count; i++)
+            {
+                enemy = Instantiate(_enemy);
+                enemy.transform.position = _spawnPoints[i].position;
+                yield return new WaitForSeconds(2f);
+            }
         }
     }
 }

@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(SpriteRenderer))]
+
+
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _speed = 1;
@@ -26,7 +32,6 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         _movement = new Vector2(0, 0);
-
         _movement.x = _target.x - transform.position.x;
 
         if (Mathf.Abs(_movement.x) < 0.1f)
@@ -64,14 +69,12 @@ public class Enemy : MonoBehaviour
         _hitBuffer = new RaycastHit2D[1];
         float fallDeltaDistance = 0.01f;
         _rigidbody2D.Cast(new Vector2(0, -1), _contactFilter, _hitBuffer, fallDeltaDistance);
-
         return !_hitBuffer[0];
     }
 
     private bool CheckFallOutScreen()
     {
         float offscreenDistance = -8;
-
         return transform.position.y < offscreenDistance;
     }
 }
