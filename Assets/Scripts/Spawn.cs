@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Spawn : MonoBehaviour
-
 {
     [SerializeField] private Enemy _enemy;
 
     private List<Transform> _spawnPoints = new List<Transform>();
+    private WaitForSeconds _spawnDelay = new WaitForSeconds(2f);
 
     private void Start()
     {
         for (int i = 0; i < gameObject.transform.childCount; i++)
             _spawnPoints.Add(gameObject.transform.GetChild(i));
 
-        Debug.Log(_spawnPoints.Count);
         StartCoroutine(SpawnFromPoints());
     }
 
@@ -28,7 +27,7 @@ public class Spawn : MonoBehaviour
             {
                 enemy = Instantiate(_enemy);
                 enemy.transform.position = _spawnPoints[i].position;
-                yield return new WaitForSeconds(2f);
+                yield return _spawnDelay;
             }
         }
     }

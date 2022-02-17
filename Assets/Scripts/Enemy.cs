@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D), typeof(SpriteRenderer))]
 [RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(BoxCollider2D))]
-[RequireComponent(typeof(SpriteRenderer))]
-
 
 public class Enemy : MonoBehaviour
 {
@@ -15,6 +12,8 @@ public class Enemy : MonoBehaviour
 
     private Rigidbody2D _rigidbody2D;
     private Animator _animator;
+    private const string _animationHorizontalSpeed = "HorizontalSpeed";
+    private const string _animationIsFalling = "IsFalling";
     SpriteRenderer _spriteRenderer;
     private RaycastHit2D[] _hitBuffer = new RaycastHit2D[1];
     private BoxCollider2D _boxCollider2D;
@@ -48,16 +47,16 @@ public class Enemy : MonoBehaviour
             _spriteRenderer.flipX = false;
         }
 
-        _animator.SetFloat("HorizontalSpeed", Mathf.Abs(_movement.x));
+        _animator.SetFloat(_animationHorizontalSpeed, Mathf.Abs(_movement.x));
         _rigidbody2D.position += _movement * _speed * Time.deltaTime;
 
         if (CheckFalling() == true)
         {
-            _animator.SetBool("IsFalling", true);
+            _animator.SetBool(_animationIsFalling, true);
         }
         else
         {
-            _animator.SetBool("IsFalling", false);
+            _animator.SetBool(_animationIsFalling, false);
         }
 
         if (CheckFallOutScreen() == true)
