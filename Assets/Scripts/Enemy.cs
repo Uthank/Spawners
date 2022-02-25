@@ -12,13 +12,14 @@ public class Enemy : MonoBehaviour
 
     private Rigidbody2D _rigidbody2D;
     private Animator _animator;
-    private const string _animationHorizontalSpeed = "HorizontalSpeed";
-    private const string _animationIsFalling = "IsFalling";
     SpriteRenderer _spriteRenderer;
     private RaycastHit2D[] _hitBuffer = new RaycastHit2D[1];
     private BoxCollider2D _boxCollider2D;
     private ContactFilter2D _contactFilter;
     private Vector2 _movement = new Vector2(0, 0);
+
+    private const string AnimationHorizontalSpeed = "HorizontalSpeed";
+    private const string AnimationIsFalling = "IsFalling";
 
     private void Start()
     {
@@ -47,17 +48,9 @@ public class Enemy : MonoBehaviour
             _spriteRenderer.flipX = false;
         }
 
-        _animator.SetFloat(_animationHorizontalSpeed, Mathf.Abs(_movement.x));
+        _animator.SetFloat(AnimationHorizontalSpeed, Mathf.Abs(_movement.x));
         _rigidbody2D.position += _movement * _speed * Time.deltaTime;
-
-        if (CheckFalling() == true)
-        {
-            _animator.SetBool(_animationIsFalling, true);
-        }
-        else
-        {
-            _animator.SetBool(_animationIsFalling, false);
-        }
+        _animator.SetBool(AnimationIsFalling, CheckFalling());
 
         if (CheckFallOutScreen() == true)
             Destroy(gameObject);
