@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour
 
     private Rigidbody2D _rigidbody2D;
     private Animator _animator;
-    SpriteRenderer _spriteRenderer;
+    private SpriteRenderer _spriteRenderer;
     private RaycastHit2D[] _hitBuffer = new RaycastHit2D[1];
     private BoxCollider2D _boxCollider2D;
     private ContactFilter2D _contactFilter;
