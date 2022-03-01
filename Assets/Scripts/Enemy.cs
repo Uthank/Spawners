@@ -50,13 +50,13 @@ public class Enemy : MonoBehaviour
 
         _animator.SetFloat(AnimationHorizontalSpeed, Mathf.Abs(_movement.x));
         _rigidbody2D.position += _movement * _speed * Time.deltaTime;
-        _animator.SetBool(AnimationIsFalling, CheckFalling());
+        _animator.SetBool(AnimationIsFalling, IsFalling());
 
-        if (CheckFallOutScreen() == true)
+        if (IsFallOutScreen() == true)
             Destroy(gameObject);
     }
 
-    private bool CheckFalling()
+    private bool IsFalling()
     {
         _hitBuffer = new RaycastHit2D[1];
         float fallDeltaDistance = 0.01f;
@@ -64,7 +64,7 @@ public class Enemy : MonoBehaviour
         return !_hitBuffer[0];
     }
 
-    private bool CheckFallOutScreen()
+    private bool IsFallOutScreen()
     {
         float offscreenDistance = -8;
         return transform.position.y < offscreenDistance;
